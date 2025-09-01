@@ -13,12 +13,13 @@
       <div>
         <form action="/edit" method="post">
           <input
-            class="block bg-zinc-600 px-5 py-2 w-1/4 rounded-md"
+            class="block bg-zinc-600 text-gray-400 px-5 py-2 w-1/4 rounded-md"
             type="text"
             name="prevName"
             id=""
             placeholder="Enter the title of the task"
             value="<%= filename %>"
+            readonly
           />
           <input
             class="block bg-zinc-600 px-5 py-2 w-1/4 mt-2 resize-none rounded-md"

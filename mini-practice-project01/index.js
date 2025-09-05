@@ -4,8 +4,8 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const fs = require('fs')
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.json()); //convert json format in js objects     //is used to parse JSON request bodies so you can access them with req.body.
+app.use(express.urlencoded({extended:true}));  //is used to parse form submissions (URL-encoded data) and turn them into a usable JavaScript object (req.body).
 app.use(express.static(path.join(__dirname, 'public'))) // for static files: /public  mein /images, /javasripts, /stylesheets (to use these in ejs pages)
 app.set('view engine','ejs')//for ejs files, /views ka folder bnana hai ad then is mein .ejs ki files
 

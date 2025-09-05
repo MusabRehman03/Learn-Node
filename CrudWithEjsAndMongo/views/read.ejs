@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="bg-zinc-900 min-h-screen text-white p-10">
+        <h1 class="text-3xl mb-5">Read All Users</h1>
+
+        <% if(users.length<1){ %>
+            <h1 class="text-gray-400 text-xl">No Users Yet</h1>
+        <% } %>
+
+        <div class="w-full flex gap-3 flex-wrap ">
+            <% users.forEach(function(user){ %>
+                <div class="w-72 bg-zinc-600 rounded-lg p-5">
+                    <!-- <div class="w-full overflow-hidden"> -->
+                        <img src="<%=user.imageUrl%>" class="w-full h-52 rounded-lg object-cover"> 
+                    <!-- </div> -->
+                     <h1 class="text-xl">Name: <%= user.name %></h1>
+                     <h1 class="text-xl text-gray-400 truncate">Email: <%= user.email %></h1>
+                     <div class="mt-5 flex w-full  justify-between">
+                        <a href="/delete/<%=user.id%>" class="text-red-500">Del </a>
+                        <a href="/edit/<%=user.id%>/<%=user.name%>/<%=user.email%>?imageUrl=<%=encodeURIComponent(user.imageUrl)%>" class="text-yellow-500">Edit </a>
+
+                     </div>
+
+
+                </div>
+            <% })%>
+            
+            
+        </div>
+    </div>
+    
+</body>
+</html>

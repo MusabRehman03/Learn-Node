@@ -49,12 +49,12 @@ app.use((err, req, res, next) => {
 const express = require('express')
 const app = express()
 
-app.use(function(req, res, next){
+app.use(function(req, res, next){  //yeh function aik middleware hai, we can do this for a specific route as well  by giving the route to it
     console.log("hello from middleware")
     next();
 })
 
-app.get('/',function(req,res){ //yeh functin aik middleware hai
+app.get('/',function(req,res){
     res.send('hello world')
 })
 

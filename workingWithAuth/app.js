@@ -44,11 +44,11 @@ app.get('/register',async (req, res)=>{
     res.render('register')
 })
 
-app.post('/register', async(req, res)=>{
+app.post('/register', (req, res)=>{
     const {name, email, password} = req.body
     bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(password, salt, function(err, hash) {
-            userModel.create({
+        bcrypt.hash(password, salt, async function(err, hash) {
+            await userModel.create({
                 username: name,
                 email,
                 password: hash
@@ -59,9 +59,9 @@ app.post('/register', async(req, res)=>{
 
 })
 
-app.post('/login', (req, res)=>{
+app.post('/login', async (req, res)=>{
     const {email, password} = req.body
-    const userFound = userModel.findOne({email})
+    const userFound = await userModel.findOne({email})
     if(userFound){
         bcrypt.compare(password, userFound.password, function(err, result) {
             if(result){

@@ -5,6 +5,13 @@ const postSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
+    content: String,
+    likes:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'user'
+        }
+    ],
     date: {
         type: Date,
         default: Date.now //always use this so that we got time stamp while user gets created //thats actually a ref to func

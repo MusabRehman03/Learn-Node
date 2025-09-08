@@ -1,0 +1,2 @@
+//await user.save krna pryga jab manually kuch data add kernnygy db mein withoour model.builtInFunction() like model.findOneAndUpdate()
+//findOne({}).populate('posts') .... so that id ki jgh py data ajaey for temporary storage for usage

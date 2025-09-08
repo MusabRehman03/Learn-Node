@@ -8,6 +8,7 @@ const userModel = require('./models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
+const postModel = require('./models/post')
 
 app.set('view engine', 'ejs')
 
@@ -59,24 +60,44 @@ app.post('/login',async function(req, res){
     }
 })
 
-app.get('/profile', isLoggedIn, async (req, res)=>{
-    res.render('profile')
-})
-
 app.get('/logout', function(req, res){
     res.cookie('token', '');
     res.redirect('/login')
 })
 
 
+app.get('/profile', isLoggedIn, async (req, res)=>{
+    const posts = await postModel.find()
+    const user = req.user
+
+    res.render('profile',{posts, user})
+})
+
+app.post('/profile/create-post', isLoggedIn, async (req, res)=>{
+    const user = req.user
+    // console.log(user)
+    const {content} = req.body
+    const createdPost = await postModel.create({content, createdBy:user._id})
+    user.posts.push(createdPost._id)
+    await user.save()
+    // console.log(createdPost._id)
+    res.redirect('/profile')
 
 
-function isLoggedIn(req, res, next){
+})
+
+
+
+
+
+
+async function isLoggedIn(req, res, next){
     if(!req.cookies.token || req.cookies.token == ""){
         res.status(500).send("Unauthorized, please Login first")
     }else{
         var decoded = jwt.verify(req.cookies.token, 'secret');
-        console.log(decoded)
+        req.user = await userModel.findOne({_id: decoded._id}).populate('posts')
+        // console.log(req.user)
         next()
     }
 }

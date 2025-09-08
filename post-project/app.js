@@ -6,6 +6,7 @@ const app =  express()
 const path = require('path')
 const userModel = require('./models/user')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname,'public')))
@@ -29,6 +30,26 @@ app.post('/register', async function (req, res) {
         res.redirect('login')
     });
 
+})
+
+
+app.get('/login', async function(req, res){
+    res.render('login')
+})
+app.post('/login',async function(req, res){
+    const {email, password} = req.body
+    const user = await userModel.findOne({email})
+    if(user){
+        bcrypt.compare(password, user.password, function(err, result) {
+            if(result){
+                var token = jwt.sign({ _id: user._id }, 'secret');
+                res.cookie('token', token)
+            }
+        });
+        res.redirect('/profile')
+    }else{
+        res.send("email or password incorrect")
+    }
 })
 
 app.listen(3000)

@@ -12,10 +12,10 @@
       <div class="w-full flex justify-center">
       </div>
       <div class="">
-        <div class="">
+        <!-- <div class="">
           <h1 class="text-2xl">Recent Posts:</h1>
-        </div>
-        <div class="w-full flex justify-center gap-3 flex-wrap mt-10">
+        </div> -->
+        <div class="w-full flex flex-col items-center justify-center gap-6  mt-10">
             <% posts.forEach(function(post){%>
                 <div class="w-[500px] flex flex-col justify-between rounded-xl border border-zinc-700 bg-zinc-800">
                     <div class="flex gap-4 p-4  border-b border-b-zinc-500">
@@ -30,13 +30,20 @@
                       </div>
                     </div>
 
-                    <div class="p-4 ">
+                    <div class="p-4 my-20 text-center">
                         <h1><%= post.content %></h1>
                     </div>
+                    <div class="flex p-3 text-sm text-blue-500 text-gray-400 justify-between">
+                      <h1><%= post.likes.length%> Likes</h1>
+                      <h1><%= post.comments.length%> Comments</h1>
+
+
+                  </div>
                     <div class="flex p-4 text-blue-500 border-t border-t-zinc-500 justify-between">
-                        <a class="hover:underline" href="/like">Like</a>
-                        <a class="hover:underline" href="/comment"> Comment</a>
-                        <a class="hover:underline" href="/share">Share</a>
+                      <% const index = post.likes.findIndex(id => id.equals(user._id))%>
+                        <a class="hover:underline" href="/like/<%=post._id%>"><%=index==-1?'Like':'Unlike'%></a>
+                        <h1 class="hover:underline" > Comment</h1>
+                        <h1 class="hover:underline" >Share</h1>
 
                     </div>
                   </div>

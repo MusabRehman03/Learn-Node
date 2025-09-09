@@ -88,9 +88,23 @@ app.post('/profile/create-post', isLoggedIn, async (req, res)=>{
 })
 
 
-app.get('/feed',async function(req, res){
-    const posts = await postModel.find().populate('postedBy')
-    res.render('feed', {posts})
+app.get('/feed', isLoggedIn, async function(req, res){
+    const posts = await postModel.find().populate('postedBy').populate('likes').populate('comments.commentedBy')
+    console.log(req.user)
+    res.render('feed', {posts, user: req.user})
+})
+
+app.get('/like/:postId', isLoggedIn, async function(req, res){
+    const postId = req.params.postId
+    const post = await postModel.findOne({_id: postId})
+    const index = post.likes.findIndex((id)=>{
+       return id.equals(req.user._id)
+    })
+    if(index==-1){ post.likes.push(req.user._id)}else {post.likes.splice(index,1)}
+    
+    await post.save()
+    const posts = await postModel.findOne({_id: postId}).populate('postedBy').populate('likes').populate('comments.commentedBy')
+    res.redirect(req.get('Referrer') || '/feed');
 })
 
 

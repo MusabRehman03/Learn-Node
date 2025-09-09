@@ -10,51 +10,40 @@
     <div class="p-10 w-full bg-zinc-900 min-h-screen text-white">
       <h1 class="text-4xl tracking-tighter mb-5">Profile Page</h1>
       <div class="w-full flex justify-center">
-        <form class="" method="post" action="/profile/create-post">
-          <h1 class="text-2xl">Create New Post:</h1>
-          <textarea
-            class="resize-none block outline-none border rounded-xl p-3 border-zinc-500 w-[500px] mt-3 py-3"
-            name="content"
-            id=""
-            placeholder="Enter the content of your post"
-          ></textarea>
-          <div class="flex justify-end">
-            <input
-              type="submit"
-              name=""
-              id=""
-              class="bg-blue-600 rounded-xl px-6 py-3 mt-3"
-              value="Publish Post"
-            />
-          </div>
-        </form>
       </div>
       <div class="">
         <div class="">
-          <h1 class="text-2xl">Recent Posts:</h1>
+          <h1 class="text-2xl">My Recent Posts:</h1>
         </div>
-        <div class="w-full flex justify-center gap-3 flex-wrap mt-10">
-            <% user.posts.reverse().forEach(function(post){%>
+        <div class="w-full flex flex-col items-center justify-center gap-6  mt-10">
+            <% posts.forEach(function(post){%>
                 <div class="w-[500px] flex flex-col justify-between rounded-xl border border-zinc-700 bg-zinc-800">
                     <div class="flex gap-4 p-4  border-b border-b-zinc-500">
                       <img
-                        src="<%= user.imageUrl%>"
+                        src="<%= post.postedBy.imageUrl%>"
                         class="w-16 h-16 rounded-full object-cover"
                         alt=""
                       />
                       <div class="flex flex-col">
-                        <h1 class="text-2xl text-blue-500">@<%= user.username %></h1>
+                        <h1 class="text-2xl text-blue-500">@<%= post.postedBy.username %></h1>
                         <h1 class="text-gray-400 text-xs mt-2"><%=post.postedAt ? new Date(post.postedAt).toLocaleString() : "No date"%></h1>
                       </div>
                     </div>
 
-                    <div class="p-4 ">
+                    <div class="p-4 my-20 text-center">
                         <h1><%= post.content %></h1>
                     </div>
+                    <div class="flex p-3 text-sm text-blue-500 text-gray-400 justify-between">
+                      <h1><%= post.likes.length%> Likes</h1>
+                      <h1><%= post.comments.length%> Comments</h1>
+
+
+                  </div>
                     <div class="flex p-4 text-blue-500 border-t border-t-zinc-500 justify-between">
-                        <a class="hover:underline" href="/like">Like</a>
-                        <a class="hover:underline" href="/comment"> Comment</a>
-                        <a class="hover:underline" href="/share">Share</a>
+                      <% const index = post.likes.findIndex(id => id.equals(user._id))%>
+                        <a class="hover:underline" href="/like/<%=post._id%>"><%=index==-1?'Like':'Unlike'%></a>
+                        <h1 class="hover:underline" > Comment</h1>
+                        <h1 class="hover:underline" >Share</h1>
 
                     </div>
                   </div>

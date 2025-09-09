@@ -67,7 +67,8 @@ app.get('/logout', function(req, res){
 
 
 app.get('/profile', isLoggedIn, async (req, res)=>{
-    const posts = await postModel.find()
+    const posts = await postModel.find().populate('postedBy')
+    console.log(posts)
     const user = req.user
 
     res.render('profile',{posts, user})
@@ -77,13 +78,19 @@ app.post('/profile/create-post', isLoggedIn, async (req, res)=>{
     const user = req.user
     // console.log(user)
     const {content} = req.body
-    const createdPost = await postModel.create({content, createdBy:user._id})
+    const createdPost = await postModel.create({content, postedBy:user._id})
     user.posts.push(createdPost._id)
     await user.save()
     // console.log(createdPost._id)
     res.redirect('/profile')
 
 
+})
+
+
+app.get('/feed',async function(req, res){
+    const posts = await postModel.find().populate('postedBy')
+    res.render('feed', {posts})
 })
 
 

@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
 const postModel = require('./models/post')
+const upload  = require('./config/multerconfig')
 
 app.set('view engine', 'ejs')
 
@@ -68,8 +69,8 @@ app.get('/logout', function(req, res){
 
 app.get('/profile', isLoggedIn, async (req, res)=>{
     const posts = await postModel.find().populate('postedBy')
-    console.log(posts)
     const user = req.user
+    console.log(user)
 
     res.render('profile',{posts, user})
 })
@@ -108,6 +109,15 @@ app.get('/like/:postId', isLoggedIn, async function(req, res){
 })
 
 
+app.get('/uploadPic', function(req, res){
+    res.render('uploadPic')
+})
+app.post('/uploadPic', isLoggedIn, upload.single('profilePic'), async function(req, res){
+    const user = req.user
+    user.profilePic = req.file.filename
+    await user.save()
+    res.redirect('/profile')
+})
 
 
 

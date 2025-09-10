@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"> // the ennctype used in form is required for multer</script>
+
+</head>
+<body>
+    <div class="p-10 w-full bg-zinc-900 min-h-screen text-white">
+        <form action="/uploadPic" method="post" enctype="multipart/form-data" 
+      class="flex flex-col items-center gap-4 p-6 bg-zinc-800 rounded-2xl shadow-lg w-96 mx-auto mt-10">
+  
+  <label for="profilePic" 
+         class="w-full cursor-pointer flex items-center justify-center border-2 border-dashed border-blue-500 rounded-xl p-6 text-gray-300 hover:bg-blue-500/10 transition">
+    <span class="text-sm font-medium">Click to upload a profile picture</span>
+    <input type="file" name="profilePic" id="profilePic" class="hidden">
+  </label>
+
+  <button type="submit" 
+          class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-xl shadow hover:bg-blue-600 transition">
+    Upload
+  </button>
+</form>
+
+        
+    </div>
+    
+</body>
+</html>
